@@ -1,0 +1,42 @@
+@mixin section {
+  padding: 10px;
+  background-color: #FFF;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: solid 1px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+  border-radius: 4px;
+
+}
+
+.user-section {
+  @include section;
+  background-color: #85C4D0;
+  margin-left: 10px;
+  height: 60vh;
+}
+
+.display-section {
+  @include section;
+  margin-right: 10px;
+  height: 60vh;
+  border-top: solid 5px #378694;
+}
+
+.logs-section {
+  @include section;
+  margin-left: 10px;
+  height: 35vh;
+  border-top: solid 5px #378694;
+}
+.customers-section {
+  @include section;
+  height: 35vh;
+  border-top: solid 5px #465CA3;
+}
+.budget-section {
+  @include section;
+  margin-right: 10px;
+  height: 35vh;
+  border-top: solid 5px #41B65A;
+}
