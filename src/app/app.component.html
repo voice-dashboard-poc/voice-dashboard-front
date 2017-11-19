@@ -2,12 +2,69 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="user-section">
+        <i class="fa fa-user-o" aria-hidden="true"></i>
         {{ user ? "Welcome " + user : "Identify yourself..." }}
       </div>
     </div>
     <div class="col-sm-6">
       <div class="display-section">
         Info
+        {{module}}
+        <div [ngSwitch]="module">
+          <div *ngSwitchCase="'logs'" class="logs-module">
+            <table>
+              <tr *ngFor="let log of logs" [ngClass]="log.type">
+                <td>{{log.type}}</td>
+                <td>{{log.date}}</td>
+                <td>{{log.service}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div *ngSwitchCase="'customers'" class="customers-module">
+            <div *ngIf="customer" class="customer-details">
+              <i class="fa fa-user-circle fa-4x" aria-hidden="true"></i>
+              <span class="full-name">{{customer.fullName}}</span>
+              <br/><br/>
+              <div class="row">
+                <div class="col-sm-6">{{customer.birthDate}}</div>
+                <div class="col-sm-3"><img [src]="'http://www.kestrel.ws/flags/current/lg/' + customer.country.toLowerCase() + '.png'"/></div>
+                <div class="col-sm-3"><i class="fa fa-3x" [ngClass]="customer.sex === 'M' ? 'fa-male' : 'fa-female'" aria-hidden="true"></i></div>
+              </div>
+            </div>
+            <table *ngIf="!customer;">
+              <tr *ngFor="let customer of customers">
+                <td>
+                  <img [src]="'http://www.kestrel.ws/flags/current/sm/' + customer.country.toLowerCase() + '.png'"/>
+                </td>
+                <td>{{customer.id}}</td>
+                <td>{{customer.fullName}}</td>
+                <td>{{customer.birthDate}}</td>
+                <td>{{customer.sex}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div *ngSwitchCase="'budget'" class="budget-module">
+            <table>
+              <tr *ngFor="let budgetData of budget">
+                <td class="expenses" [ngClass]="budgetData.earn <= budgetData.expenses ? 'expenses' : 'earns'">
+                  <i class="fa fa-lg" [ngClass]="budgetData.earn <= budgetData.expenses ? 'fa-thumbs-down' : 'fa-thumbs-up'" aria-hidden="true"></i>
+                </td>
+                <td>{{budgetData.year}}</td>
+                <td>{{budgetData.month}}</td>
+                <td class="budget">{{budgetData.budget | currency:'EUR' }}</td>
+                <td class="earns"><i class="fa fa-caret-up fa-lg" aria-hidden="true"></i> {{budgetData.earn | currency:'EUR' }}</td>
+                <td class="expenses"><i class="fa fa-caret-down fa-lg" aria-hidden="true"></i> {{budgetData.expenses | currency:'EUR' }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div *ngSwitchDefault class="default-message">
+            Choose a module to begin interacting with it. Either logs, customers or budget...
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -16,16 +73,62 @@
     <div class="col-sm-4">
       <div class="logs-section">
         LOGS
+        <div class="content">
+          <table>
+            <tr *ngFor="let log of logs" [ngClass]="log.type">
+              <td>{{log.type}}</td>
+              <td>{{log.date}}</td>
+              <td>{{log.service}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="col-sm-4">
       <div class="customers-section">
         CUSTOMERS
+        <div class="content">
+          <div *ngIf="customer" class="customer-details">
+            <i class="fa fa-user-circle fa-4x" aria-hidden="true"></i>
+            <span class="full-name">{{customer.fullName}}</span>
+            <br/><br/>
+            <div class="row">
+              <div class="col-sm-6">{{customer.birthDate}}</div>
+              <div class="col-sm-3"><img [src]="'http://www.kestrel.ws/flags/current/lg/' + customer.country.toLowerCase() + '.png'"/></div>
+              <div class="col-sm-3"><i class="fa fa-3x" [ngClass]="customer.sex === 'M' ? 'fa-male' : 'fa-female'" aria-hidden="true"></i></div>
+            </div>
+          </div>
+          <table *ngIf="!customer;">
+            <tr *ngFor="let customer of customers">
+              <td>
+                <img [src]="'http://www.kestrel.ws/flags/current/sm/' + customer.country.toLowerCase() + '.png'"/>
+              </td>
+              <td>{{customer.id}}</td>
+              <td>{{customer.fullName}}</td>
+              <td>{{customer.birthDate}}</td>
+              <td>{{customer.sex}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <div class="col-sm-4">
       <div class="budget-section">
         BUDGET
+        <div class="content">
+          <table>
+            <tr *ngFor="let budgetData of budget">
+              <td class="expenses" [ngClass]="budgetData.earn <= budgetData.expenses ? 'expenses' : 'earns'">
+                <i class="fa fa-lg" [ngClass]="budgetData.earn <= budgetData.expenses ? 'fa-thumbs-down' : 'fa-thumbs-up'" aria-hidden="true"></i>
+              </td>
+              <td>{{budgetData.year}}</td>
+              <td>{{budgetData.month}}</td>
+              <td class="budget">{{budgetData.budget | currency:'EUR' }}</td>
+              <td class="earns"><i class="fa fa-caret-up fa-lg" aria-hidden="true"></i> {{budgetData.earn | currency:'EUR' }}</td>
+              <td class="expenses"><i class="fa fa-caret-down fa-lg" aria-hidden="true"></i> {{budgetData.expenses | currency:'EUR' }}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
 
